@@ -1,0 +1,23 @@
+2026-02-08 20:54:12 | INFO | Starting training
+2026-02-08 20:54:12 | INFO | Device: cuda
+2026-02-08 20:57:00 | INFO | Epoch 001 | Train Loss: 235.431140 | Val Loss: 247.398578
+2026-02-08 20:57:00 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_4_lstm_focal_loss\epoch_1.pt
+2026-02-08 20:59:43 | INFO | Epoch 002 | Train Loss: 233.902640 | Val Loss: 246.061359
+2026-02-08 20:59:43 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_4_lstm_focal_loss\epoch_2.pt
+2026-02-08 21:02:25 | INFO | Epoch 003 | Train Loss: 233.701612 | Val Loss: 247.001571
+2026-02-08 21:02:25 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_4_lstm_focal_loss\epoch_3.pt
+2026-02-08 21:04:42 | INFO | Epoch 004 | Train Loss: 233.533167 | Val Loss: 246.914815
+2026-02-08 21:04:42 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_4_lstm_focal_loss\epoch_4.pt
+2026-02-08 21:06:59 | INFO | Epoch 005 | Train Loss: 233.447284 | Val Loss: 246.659821
+2026-02-08 21:06:59 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_4_lstm_focal_loss\epoch_5.pt
+2026-02-08 21:09:23 | INFO | Epoch 006 | Train Loss: 233.390756 | Val Loss: 246.869938
+2026-02-08 21:09:23 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_4_lstm_focal_loss\epoch_6.pt
+2026-02-08 21:11:41 | INFO | Epoch 007 | Train Loss: 233.461457 | Val Loss: 246.508958
+2026-02-08 21:11:41 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_4_lstm_focal_loss\epoch_7.pt
+2026-02-08 21:14:00 | INFO | Epoch 008 | Train Loss: 233.210759 | Val Loss: 246.822450
+2026-02-08 21:14:00 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_4_lstm_focal_loss\epoch_8.pt
+2026-02-08 21:16:21 | INFO | Epoch 009 | Train Loss: 233.072046 | Val Loss: 246.312614
+2026-02-08 21:16:21 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_4_lstm_focal_loss\epoch_9.pt
+2026-02-08 21:18:38 | INFO | Epoch 010 | Train Loss: 233.051393 | Val Loss: 246.532536
+2026-02-08 21:18:38 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_4_lstm_focal_loss\epoch_10.pt
+2026-02-08 21:18:38 | INFO | Training completed

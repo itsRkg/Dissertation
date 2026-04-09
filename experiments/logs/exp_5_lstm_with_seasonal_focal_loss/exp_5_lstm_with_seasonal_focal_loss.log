@@ -1,0 +1,23 @@
+2026-02-08 23:25:18 | INFO | Starting training
+2026-02-08 23:25:18 | INFO | Device: cuda
+2026-02-08 23:27:47 | INFO | Epoch 001 | Train Loss: 618.469915 | Val Loss: 656.266669
+2026-02-08 23:27:47 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_5_lstm_with_seasonal_focal_loss\epoch_1.pt
+2026-02-08 23:30:07 | INFO | Epoch 002 | Train Loss: 615.303953 | Val Loss: 652.759314
+2026-02-08 23:30:07 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_5_lstm_with_seasonal_focal_loss\epoch_2.pt
+2026-02-08 23:32:39 | INFO | Epoch 003 | Train Loss: 614.486478 | Val Loss: 652.752011
+2026-02-08 23:32:39 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_5_lstm_with_seasonal_focal_loss\epoch_3.pt
+2026-02-08 23:35:06 | INFO | Epoch 004 | Train Loss: 614.992880 | Val Loss: 652.470665
+2026-02-08 23:35:06 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_5_lstm_with_seasonal_focal_loss\epoch_4.pt
+2026-02-08 23:37:37 | INFO | Epoch 005 | Train Loss: 614.180122 | Val Loss: 653.735424
+2026-02-08 23:37:37 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_5_lstm_with_seasonal_focal_loss\epoch_5.pt
+2026-02-08 23:40:08 | INFO | Epoch 006 | Train Loss: 613.831779 | Val Loss: 652.790729
+2026-02-08 23:40:08 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_5_lstm_with_seasonal_focal_loss\epoch_6.pt
+2026-02-08 23:42:33 | INFO | Epoch 007 | Train Loss: 613.646189 | Val Loss: 652.398346
+2026-02-08 23:42:33 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_5_lstm_with_seasonal_focal_loss\epoch_7.pt
+2026-02-08 23:45:08 | INFO | Epoch 008 | Train Loss: 613.445139 | Val Loss: 652.391404
+2026-02-08 23:45:08 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_5_lstm_with_seasonal_focal_loss\epoch_8.pt
+2026-02-08 23:47:35 | INFO | Epoch 009 | Train Loss: 613.270783 | Val Loss: 651.862044
+2026-02-08 23:47:35 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_5_lstm_with_seasonal_focal_loss\epoch_9.pt
+2026-02-08 23:50:07 | INFO | Epoch 010 | Train Loss: 613.046505 | Val Loss: 653.929999
+2026-02-08 23:50:07 | INFO | Checkpoint saved: C:/Users/rishe/Dissertation/experiments/saved_models/exp_5_lstm_with_seasonal_focal_loss\epoch_10.pt
+2026-02-08 23:50:07 | INFO | Training completed
