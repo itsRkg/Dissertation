@@ -64,18 +64,37 @@ The dataset mounts read-only at `/kaggle/input/<slug>/`. `env_paths.get_paths()`
 ## PER-RUN on Kaggle
 
 1. New Notebook → **Add Data**: attach your dataset (the one from step 2).
+> **Environment note:** Kaggle ships PyTorch but **not** PyTorch Geometric (which provides `GATConv`).
+> The `exp_18` bootstrap cell now auto-runs `pip install -q torch_geometric` on Kaggle. If you ever see
+> `ModuleNotFoundError: No module named 'torch_geometric'`, add a cell `!pip install -q torch_geometric`
+> ABOVE the imports, run it, then re-run (restart the kernel only if the import still fails). The basic
+> install is enough for GATConv — the torch-scatter/torch-sparse extras are optional.
+
 2. Right panel → **Settings**: turn **Internet = On** (needed for `git clone`) and **Accelerator = GPU**.
 3. First cell of `exp_18` already clones the repo and sets the path. **Edit one line**: set
    `KAGGLE_DATA_SLUG = 'itsrkg/dissertation-era5'` (your real slug) in the bootstrap cell.
    - Easiest: in Kaggle, "Import Notebook" from GitHub (paste the `exp_18` file URL), or just `!git clone` then open it.
 4. Run all. It trains, then saves to `/kaggle/working/experiments/...` and prints the stability + embedding checks.
 
-### Get results back
+### Get results back (interactive vs committed run — IMPORTANT)
 
-- **Simple:** Output tab → Download (zips `/kaggle/working`). Unzip locally.
-- **CLI:** after a saved run,
-  `kaggle kernels output <your-username>/<kernel-slug> -p ./from_kaggle`
-  pulls the output files into `./from_kaggle`. Keeps results out of git, as intended.
+Two ways a Kaggle notebook runs, very different for saving results:
+
+- **Interactive / Draft session** (you click Run All): the kernel keeps computing even if your internet
+  drops or the live log vanishes — that's just the browser losing the stream, NOT the run stopping
+  (GPU %% busy = still training; it keeps writing to `/kaggle/working`). BUT `/kaggle/working` here is
+  **ephemeral**: if the session times out or you close it without downloading, outputs (incl.
+  `pretext_best.pt`) are lost. -> While the session is alive (running or just finished), open the
+  right-hand **Output / Data** panel, browse `/kaggle/working/experiments/.../pretext/`, and **Download**
+  `pretext_best.pt` + `pretext_loss_curve.csv/png`. You can grab `pretext_best.pt` as soon as the first
+  `new best` line prints, as a safety copy.
+- **Save Version -> 'Save & Run All (Commit)'** (recommended for long runs): runs **headless** on
+  Kaggle servers, independent of your browser/internet, and **permanently saves** `/kaggle/working` as
+  the notebook Output. Download anytime from the version's Output tab, or CLI:
+  `kaggle kernels output <your-username>/<kernel-slug> -p ./from_kaggle`.
+
+After download, drop `pretext_best.pt` into `experiments/saved_models/exp_18_gat_gru_mae_pretrain/pretext/`
+locally for Session 3. (Results stay out of git by design — they return via Kaggle.)
 
 ### If the repo is PRIVATE
 

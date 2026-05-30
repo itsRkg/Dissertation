@@ -1,5 +1,5 @@
 # ============================================================
-#  Dissertation .gitignore  — keep CODE in git; keep DATA,
+#  Dissertation .gitignore - keep CODE in git; keep DATA,
 #  RESULTS, model WEIGHTS, LOGS and SECRETS out.
 # ============================================================
 
@@ -12,14 +12,13 @@ experiments/saved_models/
 experiments/logs/
 experiments/experimentation_notebooks/checkpoints/
 experiments/experimentation_notebooks/logs/
-experiments/experimentation_notebooks/*.csv      # stray prediction/metric dumps
-# model checkpoints / array dumps anywhere
+experiments/experimentation_notebooks/*.csv
 *.pt
 *.pth
 *.ckpt
 *.npz
 
-# ---- Kaggle scratch (if it ever appears locally) ----
+# ---- Kaggle scratch ----
 /kaggle/
 kaggle_working/
 
@@ -31,9 +30,8 @@ __pycache__/
 .venv/
 venv/
 env/
-.python-version
 
-# ---- Secrets / credentials (NEVER commit these) ----
+# ---- Secrets / credentials (NEVER commit) ----
 kaggle.json
 .env
 .env.*
@@ -43,20 +41,11 @@ id_rsa*
 .netrc
 *credentials*
 
-# ---- Editor / OS noise ----
+# ---- Editor / OS ----
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
 
-# ============================================================
-#  NOTE on notebooks: .ipynb files ARE tracked (needed for the
-#  Kaggle pull), but clear their OUTPUTS before committing so
-#  result numbers/plots don't leak into git. Either "Clear All
-#  Outputs" in Jupyter, or install nbstripout once:
-#      pip install nbstripout && nbstripout --install
-#  (adds a git filter that strips outputs on every commit).
-#
-#  Large draft PDF is left tracked by default; uncomment to skip:
-# *.pdf
-# ============================================================
+# NOTE: .ipynb files ARE tracked (needed for the Kaggle pull); clear their
+# outputs before committing (Jupyter "Clear All Outputs" or nbstripout).

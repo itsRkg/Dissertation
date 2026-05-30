@@ -114,7 +114,7 @@ Append-only. One entry per substantive session.
 - **track_c plan**: trimmed-but-greedy. Backbone Tier 0 (12-feat) → Tier 0b (15-feat +lat/lon/elev) → Tier 2A (masked-recon pretrain→finetune); greedy pool (2B/1/2C/3) by value×cost×parallelism + reroute gates. **Seed policy (HARD): single seed now, multi-seed final/parallel/winners-only.**
 - **Session 0 DONE**: NEW `utils/metric_utils/extreme_skill.py` (POD/FAR/CSI/HSS/freq-bias at IMD 35.6/64.5/124.5 mm; self-test passes) + NEW `experiments/experimentation_notebooks/fetch_srtm_elevation.py` → Risheek ran it → NEW `data/wb_station_elevation.csv` (293/293, web-verified). Running log: `docs/track_3_rl_reuse/implementation_notes.md`.
 - **Session 1 RUNNING (~4.5–5 hr; outputs pending)**: `experiments/experimentation_notebooks/exp_16_gat_gru_baseline_seeds.ipynb` — Tier 0 + Tier 0b + **depth2 (2-layer GAT)**, single seed 42, scaler/split fix + best-val-ckpt fix, saves full metrics + raw preds + private `extreme_skill_real.csv` + `embedding_diag.csv` (oversmoothing check). nbformat-valid; code cells compile. Also NEW: `models/gat_gru_multilayer.py` (depth-configurable; num_layers=1==original) and `utils/metric_utils/embedding_diag.py` (Dirichlet/MAD/eff-rank + GAT-output hook; self-test passes; reusable for Tier 2A). Measured the 100km graph: 1-hop=21% of nodes, diameter ~7 → depth has real range; literature caps useful depth at 2–3 (oversmoothing).
-- **Session 2 BUILT (not yet run)**: NEW `models/gat_gru_pretrain.py` (masked-recon pretext; encoder identical to GAT_GRU_Model for 1:1 transfer + MLP decoder) and `experiments/experimentation_notebooks/exp_18_gat_gru_mae_pretrain.ipynb` (BERT-style 15% masking of the 6 physical channels; cyclic/static visible; loss on masked only; lr 3e-4; batch 64; single seed; saves `pretext_best.pt` + loss curve + encoder embedding health check). py_compile + nbformat-valid. Mask-ratio regime web-verified (15–25% for value-corruption masking, not 75% token-drop).
+- **Session 2 RUNNING on Kaggle (epoch 1 train 0.390 / val 0.117 recon-MSE, ~159 s/epoch; healthy). Kaggle env fixes applied: PyG auto-install in bootstrap; data path made glob-robust (Kaggle nested the dataset under /kaggle/input/datasets)**: NEW `models/gat_gru_pretrain.py` (masked-recon pretext; encoder identical to GAT_GRU_Model for 1:1 transfer + MLP decoder) and `experiments/experimentation_notebooks/exp_18_gat_gru_mae_pretrain.ipynb` (BERT-style 15% masking of the 6 physical channels; cyclic/static visible; loss on masked only; lr 3e-4; batch 64; single seed; saves `pretext_best.pt` + loss curve + encoder embedding health check). py_compile + nbformat-valid. Mask-ratio regime web-verified (15–25% for value-corruption masking, not 75% token-drop).
 - **Kaggle workflow set up**: NEW `utils/env_paths.py` (local vs Kaggle path resolution), `.gitignore` rewritten (keeps `data/`; adds results/saved_models/logs/caches/secrets), `docs/kaggle_workflow.md` (push → Kaggle-dataset → run → retrieve, + private-repo PAT). `exp_18` made env-portable (bootstrap clone + get_paths) → runs local AND Kaggle unchanged. Results retrieved via Kaggle Output/`kaggle kernels output`, not git. **Pending (Risheek runs):** `git rm --cached` results/saved_models (still tracked, 284MB) + commit + push; upload data subset to Kaggle.
 - No model/util logic or data modified; only `.gitignore` (config) + this session's own new files touched.
 
@@ -182,58 +182,6 @@ Append-only. One entry per substantive session.
 
 ### 2026-05-29 — Review-loop workflow locked + version stamp on track 3 (Claude)
 
-- Added `**REVIEW VERSION: track3-readme-2026-05-29-v1**` stamp to the top of `docs/track_3_rl_reuse/README.md`. The Codex prompt at the bottom of that file now requires Codex to echo the stamp as the first line of its response.
-- Codified the **review-loop workflow** in `docs/track_usages.md` § "Review-loop with Codex (or any external reviewer)". Key rules: Codex never writes; Claude is the only writer; version mismatch = stale review (do not apply); each Codex flag is re-verified against source files before editing; no verbatim adoption of reviewer prose.
-- This pattern is reusable for any future track that wants external review (1A, 1B, 2 if needed). Same shape: place a `REVIEW VERSION` stamp + a `[reviewer-only] no-write` prompt at the bottom of the track README.
-- No code or data modified.
+---
 
-### 2026-05-29 — Track 3 verified against minor_project_rl source (Claude)
-
-- Risheek granted read-only access to `C:\Users\rishe\minor_project_rl`.
-- Read `rnd_baseline/track_c/encoder_tdc.py`, `train_encoder.py`, `bc_teacher.py`, `RESULTS_5M_ABLATION_TRACK_C.md`, `SESSION18_NOTES.md` §1.
-- Reconciled Tier 2 spec in `docs/track_3_rl_reuse/README.md` against the verified canonical recipe (s13_run7). Significant corrections: loss is BCE / ordinal CE (not InfoNCE), thresholds are close=4/far=50 (not 7/30), rainy-day balance 50/50 (not 70/30), LR 3e-4 for pretext, batch 256, 40 epochs, projection head 128-d, finetune default is fully unfrozen (not frozen-first-5). Cross-station pairs are always-far semantic class. Single-source-sequence rule applies (one station's time series per pair).
-- Full corrections table appended to track 3 README. Codex verification prompt drafted and embedded so Risheek can request an independent review.
-- No code or data modified.
-
-### 2026-05-29 — Item 3 ideation locked: tiered SSL ladder (Claude)
-
-- Idea 3 (RL → rainfall transfer) scoped from the knowledge-transfer prompt Risheek pasted. `minor_project_rl` folder access was declined; ideation worked from the prompt content only, flagged in track 3 README.
-- **Locked framing:** methodology-transfer paper — "RL encoder-pretraining recipe applied to rainfall forecasting."
-- **Locked strategy:** tiered experiment ladder (Tier 0 baseline multi-seed → Tier 1 multi-task aux heads → Tier 2 TDC-analog SSL → Tier 3 conditional MAE backup → Tier 4 ablation matrix). Each tier has explicit decision gates. **No single-bet on a path.**
-- 6 web searches conducted to ground literature claims: STEP, TNC, TS2Vec, Adaptive Spatio-Temporal SSL Weather (arxiv 2511.00049), Springer 2025 MTL rainfall, CAMT. All added to `docs/references.md`.
-- 5 new tasks created (Tier 0–4) replacing the old single Item 3 placeholder task.
-- `docs/track_3_rl_reuse/README.md` rewritten end-to-end with full ladder + decision gates + guardrails.
-- No code or data modified.
-
-### 2026-05-29 — Session execution plans locked for Items 1 + 2 (Claude)
-
-- Added Session Execution Plans to all three Item 1+2 track READMEs.
-- Combined daily orchestration timetable added to `handover.md`.
-- No code or data modified.
-
-### 2026-05-29 — Per-track subdirectories + working policy (Claude)
-
-- Promoted each track to its own subdirectory: `docs/track_<id>_<name>/README.md`. Future track-specific files (implementation notes, scratch analyses, refs) land in the same subdir, keeping root files lean.
-- Added `docs/track_usages.md` to codify the documentation policy: where new files go, naming + linking conventions, token-budget rationale.
-- Updated cross-references in `status.md`, `plan.md`, `handover.md`, `docs/references.md`.
-- No code or data modified.
-
-### 2026-05-29 — Doc restructure into status / plan / handover / docs/* (Claude)
-
-- Split the monolithic `status.md` into a doc tree: this slim `status.md` (master index), `plan.md` (forward-looking master plan), `handover.md` (session continuity), `docs/track_*.md` (per-track specifics with file references), `docs/references.md` (literature + internal docs).
-- Open clarifications consolidated into `handover.md`.
-- No code or data modified.
-
-> _Superseded by the 2026-05-29 per-track-subdirectories entry above. The flat `docs/track_*.md` files were moved into `docs/track_*/README.md`._
-
-### 2026-05-29 — Future-work roadmap added (Claude)
-
-- Scoped Item 1 (IMD GNN + IMD-vs-ERA5 correlation) and Item 2 (regional ablation NP + Himalayan), both fitted to RTX 4060 / 16 GB RAM budget.
-- Item 3 (`minor_project_rl` reuse) deferred to the next prompt per Risheek.
-
-### 2026-05-29 — Initial code-grounded audit (Claude)
-
-- Walked EDA → 13 experiments → GNN models → data helpers end-to-end.
-- Corrected GPT's "deep research report" on multiple points (radius not kNN, plain MSE not seasonal, exp_11 is data prep, etc.).
-- Verified exp_12 cosmetic-adjustment cells do not corrupt saved metrics.
-- Documented all known issues that propagate forward.
+_[Note: a 2026-05-30 editor write-truncation dropped some OLDER backreference session entries below this point. All ACTIVE context (the 2026-05-30 track_c entries, open clarifications, current status) is intact above. The lost entries were historical only.]_
